@@ -8,8 +8,8 @@ namespace Task1
 {
     class Program
     {
-        static bool Prime(int n)
-        {                    //boolean function which check if number prime or not            
+        static bool Prime(int n)                  //boolean function which check if number prime or not 
+        {                               
             if (n == 1) return false;                  //tacking into account unique case with number 1
             for (int i = 2; i * i <= n; i++)
             {

@@ -28,7 +28,7 @@ namespace Task2
             string[] numbers = data.Split(' ');              //splittin array from numbers with "space"
 
 
-            int[] nn = Array.ConvertAll(numbers, int.Parse);            //Egress space
+            int[] nn = Array.ConvertAll(numbers, int.Parse);            
             int n = nn.Length;               //counted numbers from array
 
             int[] s = new int[n];                                       //limited array
