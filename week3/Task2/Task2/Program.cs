@@ -44,6 +44,62 @@ namespace FarManager2
             }
         }
 
+        public void DeleteSelectedItem()
+        {
+            FileSystemInfo fileSystemInfo = Content[selectedItem];
+            if (fileSystemInfo.GetType() == typeof(DirectoryInfo))
+            {
+                Directory.Delete(fileSystemInfo.FullName, true);
+            }
+            else
+            {
+                File.Delete(fileSystemInfo.FullName);
+            }
+            Content.RemoveAt(selectedItem);
+            selectedItem--;
+        }
+
+        public void rename(FileSystemInfo fInfo)
+
+        {
+
+            if (fInfo.GetType() == typeof(DirectoryInfo))
+
+            {
+                DirectoryInfo y = fInfo as DirectoryInfo;
+                for (int i = 1; i <= 2; i++) // создаем пространство для записи 
+                {
+                    Console.WriteLine();
+                }
+                for (int i = 0; i < 20; i++)
+                {
+                    Console.Write(" ");
+                }
+                Console.Write("Enter new name:"); //введем текст для пользователя 
+                string s = Console.ReadLine(); // введем новое название папки 
+                string path = y.Parent.FullName;
+                string newname = Path.Combine(path, s); //путь оригинала объединяем с новым именем папки 
+                y.MoveTo(newname); // переместим файл по тому же пути с новым именем 
+            }
+            else
+            {
+                FileInfo y = fInfo as FileInfo;
+                for (int i = 1; i <= 2; i++) // создание пространства для записи нового имени 
+                {
+                    Console.WriteLine();
+                }
+                for (int i = 0; i < 20; i++)
+                {
+                    Console.Write(" ");
+                }
+                Console.Write("Enter new name:"); //введем текст для пользователя 
+                string s = Console.ReadLine();//введем новое название файла 
+                string newname = Path.Combine(y.Directory.FullName, s);//путь оригинала объединяем с новым именем файла 
+                y.MoveTo(newname);
+
+            }
+
+        }
 
         public void Draw()
         {
@@ -98,6 +154,9 @@ namespace FarManager2
                 ConsoleKeyInfo consoleKeyInfo = Console.ReadKey();//выбор нескольких клавиш 
                 switch (consoleKeyInfo.Key)
                 {
+                    case ConsoleKey.Delete:
+                        history.Peek().DeleteSelectedItem();//удаляем самый последний выбранный объект 
+                        break;
                     case ConsoleKey.UpArrow:
                         history.Peek().SelectedItem--;//от данного объекта поднимаемся вверх 
                         break;
@@ -140,6 +199,11 @@ namespace FarManager2
                             }
                         }
                         break;
+                    case ConsoleKey.F2: // console key for renaming 
+
+                        history.Peek().rename(history.Peek().Content[history.Peek().SelectedItem]);
+                        break;
+
                 }
             }
         }
